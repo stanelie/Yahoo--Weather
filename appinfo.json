@@ -65,7 +65,7 @@
                 "type": "bitmap"
             },
             {
-                "file": "images/YWeather_Menu.png",
+                "file": "images/YWeather_Menu_rect.png",
                 "menuIcon": true,
                 "name": "Menu_Image",
                 "targetPlatforms": null,
