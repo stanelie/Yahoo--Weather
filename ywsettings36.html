@@ -808,35 +808,6 @@
                     //Disable the UUID. this is merely informational
                     //$('#UUID').prop('disabled', true);
                     $('#lt').prop('disabled', true);
-                    //$("#lt").hide();
-                    //Disable all the Extra Features to enable them based on LT
-                    $('#accuracy').prop('disabled', true);
-                    $('#feelslike').prop('disabled', true);
-                    $('#ESDuration').prop('disabled', true);
-                    $('#backlight').prop('disabled', true);
-                    $('#timer').prop('disabled', true);
-                    $('#wspeed').prop('disabled', true);
-                    $('#start').prop('disabled', true);
-                    $('#end').prop('disabled', true);
-                    $('#forecast').prop('disabled', true);
-                    //Enable LT 1 fields
-                    if (parseInt(getQueryVariable('lt')) >= 1) {
-                        $('#feelslike').prop('disabled', false);
-                        $('#ESDuration').prop('disabled', false);
-                        $('#backlight').prop('disabled', false);
-                        $('#wspeed').prop('disabled', false);
-                        $('#start').prop('disabled', false);
-                        $('#end').prop('disabled', false);
-                    }
-                    //Enable LT 2 fields
-                    if (parseInt(getQueryVariable('lt')) >= 2) {
-                        $('#accuracy').prop('disabled', false);
-                        $('#timer').prop('disabled', false);
-                    }
-                    //Enable LT 3 fields
-                    if (parseInt(getQueryVariable('lt')) >= 3) {
-                        $('#forecast').prop('disabled', false);
-                    }
                     $('#b-cancel').click(function() {
                         document.location = 'pebblejs://close#';
                     });
