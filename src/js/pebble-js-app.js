@@ -1483,14 +1483,7 @@ Pebble.addEventListener('showConfiguration', function(e) {
 	var optTheme = options['theme'];
 	if ((optTheme == null)||(optTheme=="null")){optTheme="1";}
 	
-	//Check settings availability. If server is down use mirror on github.
-	
- 	if (ping("http://yweather.es/ywsettings36.html") == 200){
-		var uri = 'http://yweather.es/ywsettings36.html?'; //PRODUCTION
-	}
-	else {
-		var uri = 'http://dabdemon.github.io/Yahoo--Weather/ywsettings36.html?'; //DEVELOPMENT
-	}
+	var uri = 'https://stanelie.github.io/Yahoo--Weather/ywsettings36.html?';
 	
 		
 	//var uri = 'http://yweather.es/ywsettings34.html?'; //PRODUCTION
