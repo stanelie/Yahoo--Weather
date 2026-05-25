@@ -32,16 +32,6 @@
             <button class="btn btn-success" type="submit" id="b-submit">Submit</button>
         </div>
 
-        <!--Create the Jumbotron with the Instructions -->
-        <div class="container">
-            <div class ="jumbotron">
-                <h3 class="text-warning"><b>YWeather Settings</b></h3>
-                <h4>Please, select your settings and click on Submit</h4>
-                <h4 class="text-danger"><b>NOTE: </b> The darker/sunken option is the selected one</h4>
-            </div>
-        </div>
-
-
         <!-- Create the two tabs to group the different subset of settings -->
         <div class="container">
             <!-- Tabs -->
@@ -229,16 +219,11 @@
                                         </div>
                                   </div>
 
-                                                                    <!-- Weather Provider-->
+                                                                    <!-- Weather Provider (OpenWeatherMap only) -->
                                     <div class="form-group">
-                                        <label for="weatherprovider" class="control-label col-md-3">Provider</label>
+                                        <label class="control-label col-md-3">Provider</label>
                                         <div class="col-md-6">
-                                            <select type="text" name="weatherprovider" id="weatherprovider" class="form-control"/>
-                                                <option value="0">Yahoo! Weather</option>
-                                                <option value="1">The Weather Underground</option>
-                                                <option value="2">forecast.io</option>
-                                                <option value="3">OpenWeatherMap</option>
-                                            </select>
+                                            <p class="form-control-static">OpenWeatherMap</p>
                                         </div>
                                     </div>
 
@@ -254,24 +239,10 @@
     
                                     
 
-                                    <div class="alert alert-success alert-dismissable">
+                                    <div class="alert alert-info alert-dismissable">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                                            <h3>What is a custom API Key?</h3>
-                                            <div>If you want to change the weather provider you must get your own API key. Otherise the application WON'T WORK!<br>
-                                                If you are not sure what a Custom API key is or how to get one, please keep Yahoo! as the weather provider.
-                                                <br>
-                                                <br>
-                                                To get a The Weather Underground API key follow this <span><a href="http://deutsch.wunderground.com/weather/api/d/login.html">(link)</a></span>
-                                                <br>
-                                                To get a forecast.io API key follow this <span><a href="https://developer.forecast.io/register">(link)</a>
-                                                </span>
-                                                <br>
-                                                To get an OpenWeatherMap API key follow this <span><a href="http://openweathermap.org/appid#get">(link)</a>
-                                                <br>
-                                                <br>
-                                                NOTE: API keys are intended for developers only. You are responsible of doing a good use of those provider's developer keys and comply with their EULAs. YWeather only helps you by offering a free way to use your private credentials for accessing the weather data on TWU, OpenWeatherMap and/or forecast.io. If you don't understand what this means or you don't agree you should not change the weather provider.
-                                            </span>
-                                            </div>
+                                            <h4>OpenWeatherMap API Key</h4>
+                                            <div>A free API key is required. Register at <a href="https://home.openweathermap.org/users/sign_up" target="_blank">openweathermap.org</a> and paste your key above.</div>
                                         </div>
 
                                 </form>
@@ -360,14 +331,6 @@
 
                 <div class="tab-pane fade" id="extras-tab">
 
-                    <!-- Add an alert to ensure no BB nor WP users make a payment (which I'd need to refund... and that sucks) -->
-
-
-                        <div class="alert alert-warning alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                            <h3>WARNING</h3>
-                            <div>Only Android and iOS devices are supported at this time. Extra features may not work on any BlackBerry nor Windows Phone device until Pebble gives official support.</div>
-                        </div>
 
 
                     
@@ -804,7 +767,6 @@
                         'seconds': $('input:radio[name=seconds]:checked').val(),
                         'hourly_vibe': $('input:radio[name=hourly_vibe]:checked').val(),
                         'alerts': $('input:radio[name=alerts]:checked').val(),
-                        'weatherprovider': $('#weatherprovider').val(),
                         'CustomAPIKey': $('#CustomAPIKey').val(),
                         'hide_bat': $('input:radio[name=hide_bat]:checked').val(),
                         'version' : "3.6"
@@ -822,23 +784,7 @@
                     //$('#UUID').prop('disabled', true);
                     $('#lt').prop('disabled', true);
                     $('#b-submit').click(function() {
-                    	var stopSubmission = false;
-                    	//check that API key has a value before submitting changes (if necessary)
-                    	if ($('#weatherprovider').val() > 0 && $('#CustomAPIKey').val().length <10){
-                    		stopSubmission = true;
-                    		alert('You need a custom API Key to use this weather provider. Please read the green box on the "Common Settings >> Weather" section on this settings page to get more info about how to get your API key.');
-                    	}
-
-                    	//check that user is not using the user Key by mistake
-                    	if ($('#weatherprovider').val() > 0 && $('#CustomAPIKey').val().length >=10 && $('#CustomAPIKey').val() == $('#key').val()){
-                    		stopSubmission = true;
-                    		alert('The custom API key is NOT your user key. Your user key unblock extra features. A custom API key allows you to access to the selected weather provider. Please read the green box on the "Common Settings >> Weather" section on this settings page to get more info about how to get your API key.');
-                    	}
-
-                    	if (stopSubmission == false){
-                    		document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(saveOptions()));
-                    	}
-
+                    	document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(saveOptions()));
                     });
 
                     
@@ -919,16 +865,6 @@
                         $('input:radio[name=alerts][value=false]').prop('checked', true).trigger("click");
                     }
                     
-                    $('#weatherprovider').val(getQueryVariable('weatherprovider')).change();
-        
-        /*           
-                    //ensure Yahoo! Weather is selected by default
-                    if (parseInt(getQueryVariable('weatherprovider'))>= 0){
-                        $('#weatherprovider').val(getQueryVariable('weatherprovider')).change();
-                    else{
-                        $('#weatherprovider').val("0").change();
-                    }
-                    */
                     $('#CustomAPIKey').val(getQueryVariable('CustomAPIKey')).change();
                     if (getQueryVariable('hide_bat') == "false") {
                         $('input:radio[name=hide_bat][value=false]').prop('checked', true).trigger("click");
