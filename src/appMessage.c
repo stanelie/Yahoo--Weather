@@ -397,17 +397,17 @@ void loadInitialTuples(){
 void unloadInitialTuples(){
 	memset(&initial_temp[0], 0, sizeof(initial_temp));
 	memset(&initial_city[0], 0, sizeof(initial_city));
-	memset(&initial_temp[0], 0, sizeof(initial_high));
-	memset(&initial_temp[0], 0, sizeof(initial_low));
-	memset(&initial_temp[0], 0, sizeof(initial_sunrise));
-	memset(&initial_temp[0], 0, sizeof(initial_sunset));
-	memset(&initial_temp[0], 0, sizeof(initial_wind));
-	memset(&initial_temp[0], 0, sizeof(initial_PoP));
-	memset(&initial_temp[0], 0, sizeof(initial_strwdirection));
-	memset(&initial_temp[0], 0, sizeof(initial_day1H));
-	memset(&initial_temp[0], 0, sizeof(initial_day1L));
-	memset(&initial_temp[0], 0, sizeof(initial_day2H));
-	memset(&initial_temp[0], 0, sizeof(initial_day2L));
-	memset(&initial_temp[0], 0, sizeof(initial_day3H));
-	memset(&initial_temp[0], 0, sizeof(initial_day3L));
+	memset(&initial_high[0], 0, sizeof(initial_high));
+	memset(&initial_low[0], 0, sizeof(initial_low));
+	memset(&initial_sunrise[0], 0, sizeof(initial_sunrise));
+	memset(&initial_sunset[0], 0, sizeof(initial_sunset));
+	memset(&initial_wind[0], 0, sizeof(initial_wind));
+	memset(&initial_PoP[0], 0, sizeof(initial_PoP));
+	memset(&initial_strwdirection[0], 0, sizeof(initial_strwdirection));
+	memset(&initial_day1H[0], 0, sizeof(initial_day1H));
+	memset(&initial_day1L[0], 0, sizeof(initial_day1L));
+	memset(&initial_day2H[0], 0, sizeof(initial_day2H));
+	memset(&initial_day2L[0], 0, sizeof(initial_day2L));
+	memset(&initial_day3H[0], 0, sizeof(initial_day3H));
+	memset(&initial_day3L[0], 0, sizeof(initial_day3L));
 }
