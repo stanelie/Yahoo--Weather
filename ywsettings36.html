@@ -5,6 +5,20 @@
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <!--load the Bootstrap "Superhero" theme-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/superhero/bootstrap.min.css">
+        <style>
+            #submit-bar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                padding: 8px 16px;
+                background-color: #2b3e50;
+                border-bottom: 1px solid #1a252f;
+                text-align: center;
+            }
+            body { padding-top: 52px; }
+        </style>
         <!--load JQuery and Bootstrap JavaScript -->
         <script src='https://code.jquery.com/jquery-1.9.1.min.js'></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -12,6 +26,11 @@
         <title>YWeather Settings</title>
     </head>
     <body>
+
+        <!-- Fixed submit bar -->
+        <div id="submit-bar">
+            <button class="btn btn-success" type="submit" id="b-submit">Submit</button>
+        </div>
 
         <!--Create the Jumbotron with the Instructions -->
         <div class="container">
@@ -724,12 +743,6 @@
             </div>
         </div>
 
-        <!-- Submit buttons -->
-        <div class="container" align="center">
-            <button class="btn btn-warning" type="submit" id="b-support">Support</button>
-            <button class="btn btn-danger" type="submit" id="b-cancel">Cancel</button>
-            <button class="btn btn-success" type="submit" id="b-submit">Submit</button>
-        </div>
 
         <!-- footer -->
         <div class = "container">
@@ -808,9 +821,6 @@
                     //Disable the UUID. this is merely informational
                     //$('#UUID').prop('disabled', true);
                     $('#lt').prop('disabled', true);
-                    $('#b-cancel').click(function() {
-                        document.location = 'pebblejs://close#';
-                    });
                     $('#b-submit').click(function() {
                     	var stopSubmission = false;
                     	//check that API key has a value before submitting changes (if necessary)
@@ -831,14 +841,6 @@
 
                     });
 
-                    $('#b-support').click(function() {
-                        var body = '***** %0D%0A Please, explain as accurate as you could what your problem is  %0D%0A*****%0D%0A %0D%0A %0D%0A ***** %0D%0A  DO NOT REMOVE THIS  %0D%0A *****%0D%0A';
-                        var settings = encodeURIComponent(JSON.stringify(saveOptions()));
-                        var to = 'pebbleweather@gmail.com';
-                        var subject = 'Support Required - YWeather Settings';
-
-                        document.location.href = "mailto:"+to+"?subject="+subject+"&body="+body + settings;
-                    });
                     
                     if (getQueryVariable('language') != ""){
                         $('#language').val(getQueryVariable('language')).change();
