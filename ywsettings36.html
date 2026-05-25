@@ -335,83 +335,7 @@
 
                     
                     <div class="panel-group" id="accordion-extras">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-extras" href="#accordion-account">
-                                    Account
-                                    </a>
-                                </h4>
-                            </div>
-                        
-                            <div id="accordion-account" class="panel-collapse collapse in">
-                        
-                                <div class="panel-body">
 
-                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                            <input type="hidden" name="cmd" value="_xclick">
-                                            <input type="hidden" name="business" value="yweather.pebble@gmail.com">
-                                            <input type="hidden" name="lc" value="US">
-                                            <input type="hidden" name="item_name" value="YWeather">
-                                            <input type="hidden" name="button_subtype" value="services">
-                                            <input type="hidden" name="no_note" value="0">
-                                            <input type="hidden" name="currency_code" value="EUR">
-                                            <input type="hidden" name="tax_rate" value="0.000">
-                                            <input type="hidden" name="shipping" value="0.00">
-                                            <input type="hidden" name="bn" value="PP-BuyNowBF:btn_paynowCC_LG.gif:NonHostedGuest">
-                                            <input type="hidden" name="on0" value="USER ID">
-                                            <input type="hidden" name="os0" id="os0">
-
-                                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                                            <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
-                                    </form>
-                                
-
-                                    <form class="form-horizontal">
-
-                                        <!-- User ID: getAccountToken() from the Pebble application-->
-                                        <div class="form-group">
-                                            <label for="UUID" class="control-label col-sm-3">User ID</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="col-sm-9" id="UUID" name="UUID" readonly>
-                                            </div>
-                                        </div>
-
-                                        <!-- User Key: generated based on the User ID (unique)-->
-                                        <div class="form-group">
-                                            <label for="key" class="control-label col-sm-3">User Key</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="col-sm-9" id="key" name="key" placeholder="Paste your key here.">
-                                            </div>
-                                        </div>
-
-                                        <!-- License Type: generated based on the User key-->
-                                        <div class="form-group">
-                                            <label for="lt" class="control-label col-sm-3">License Type</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="col-sm-3" id="lt" name="lt">
-                                            </div>
-                                        </div>
-
-                                        <div class="alert alert-success alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                                            <h3>Choose the right License Type</h3>
-                                            <div>Back the project with 1 euro to get a LT1 key. <br>
-                                                 Back the project with 3 euros to get a LT2 key.<br>
-                                                 Back the project with 5 euros or more to get a LT3 key.<br>
-                                                 <br>License types are cumulative. LT3 includes LT2 and LT1 features.
-                                            </div>
-                                        </div>
-
-
-                                    </form>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                       
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -431,10 +355,6 @@
                                     <div class="form-group">
                                         <label for="ESDuration" class="control-label col-md-3">Forecast Screen Duration</label>
                                         <div class="col-md-6">
-                                           <div class="input-group">
-                                            <div class="input-group-addon">
-                                              <span class="text-warning">LT1</span>
-                                            </div>
                                             <select type="text" name="ESDuration" id="ESDuration" class="form-control" />
                                                 <option value="0">Off - No forecast</option>
                                                 <option value="5">5 seconds</option>
@@ -442,7 +362,6 @@
                                                 <option value="10">10 seconds</option>
                                                 <option value="15">15 seconds</option>
                                             </select>
-                                           </div>
                                         </div>
                                     </div>
 
@@ -451,10 +370,6 @@
                                     <div class="form-group">
                                         <label for="backlight" class="control-label col-md-3">Extend Backlight</label>
                                         <div class="col-md-6">
-                                           <div class="input-group">
-                                            <div class="input-group-addon">
-                                              <span class="text-warning">LT1</span>
-                                            </div>
                                                 <div class="btn-group" data-toggle="buttons">
                                                   <label class="btn btn-primary">
                                                      <input type="radio" id="false" value="false" name="backlight" />
@@ -465,7 +380,6 @@
                                                     Yes
                                                   </label>
                                                 </div>
-                                           </div>
                                         </div>
                                     </div>
 
@@ -475,10 +389,6 @@
                                         <label for="donotdisturb" class="control-label col-md-3">Hourly Vibe quiet Hours</label>
                                         <div class="col-md-9">
                                             <div>
-                                               <div class="input-group">
-                                                <div class="input-group-addon">
-                                                  <span class="text-warning">LT1</span>
-                                                </div>
                                                 <label for="start">Start</label>
                                                 <select type="text" name="start" id="start" class="form-control" />
                                                     <option value="0">0:00 (12:00am)</option>
@@ -506,13 +416,8 @@
                                                     <option value="22">22:00 (10:00pm)</option>
                                                     <option value="23">23:00 (11:00pm)</option>
                                                 </select>
-                                               </div>
                                             </div>
                                             <div>
-                                               <div class="input-group">
-                                                <div class="input-group-addon">
-                                                  <span class="text-warning">LT1</span>
-                                                </div>
                                                 <label for="end">End</label>
                                                 <select type="text" name="end" id="end" class="form-control" />
                                                     <option value="0">0:00 (12:00am)</option>
@@ -540,7 +445,6 @@
                                                     <option value="22">22:00 (10:00pm)</option>
                                                     <option value="23">23:00 (11:00pm)</option>
                                                 </select>
-                                               </div>
                                             </div>
                                         </div>
                                     </div>
@@ -572,10 +476,6 @@
                                     <div class="form-group">
                                         <label for="feelslike" class="control-label col-md-3">Displayed Temperature</label>
                                         <div class="col-md-6">
-                                           <div class="input-group">
-                                            <div class="input-group-addon">
-                                              <span class="text-warning">LT1</span>
-                                            </div>
                                                 <div class="btn-group" data-toggle="buttons">
                                                   <label class="btn btn-primary">
                                                      <input type="radio" id="false" value="false" name="feelslike" />
@@ -586,7 +486,6 @@
                                                     Feels Like 
                                                   </label>
                                                 </div>
-                                           </div>
                                         </div>
                                     </div>
 
@@ -594,17 +493,12 @@
                                     <div class="form-group">
                                         <label for="wspeed" class="control-label col-md-3">Wind Speed Units</label>
                                         <div class="col-md-6">
-                                           <div class="input-group">
-                                            <div class="input-group-addon">
-                                              <span class="text-warning">LT1</span>
-                                            </div>
                                             <select type="text" name="wspeed" id="wspeed" class="form-control" />
                                                 <option value="0">km/h - mi/h</option>
                                                 <option value="1">m/s</option>
                                                 <option value="2">knots</option>
                                                 <option value="3">beaufort</option>
                                             </select>
-                                           </div>
                                         </div>
                                     </div>
 
@@ -613,16 +507,11 @@
                                     <div class="form-group">
                                         <label for="accuracy" class="control-label col-md-3">Accuracy</label>
                                         <div class="col-md-6">
-                                           <div class="input-group">
-                                            <div class="input-group-addon">
-                                              <span class="text-success">LT2</span>
-                                            </div>
                                             <select type="text" name="accuracy" id="accuracy" class="form-control" />
                                                 <option value="16">Neighborhood</option>
                                                 <option value="11">City</option>
                                                 <option value="6">Region</option>
                                             </select>
-                                           </div>
                                         </div>
                                     </div>
 
@@ -631,10 +520,6 @@
                                     <div class="form-group">
                                         <label for="timer" class="control-label col-md-3">Refresh Frequency</label>
                                         <div class="col-md-6">
-                                           <div class="input-group">
-                                            <div class="input-group-addon">
-                                              <span class="text-success">LT2</span>
-                                            </div>
                                             <select type="text" name="timer" id="timer" class="form-control" />
                                                 <option value="5">5 minutes</option>
                                                 <option value="15">15 minutes</option>
@@ -642,7 +527,6 @@
                                                 <option value="45">45 minutes</option>
                                                 <option value="60">60 minutes</option>
                                             </select>
-                                           </div>
                                         </div>
                                     </div>
 
@@ -652,10 +536,6 @@
                                     <div class="form-group">
                                         <label for="forecast" class="control-label col-md-3">3 Day Forecast</label>
                                         <div class="col-md-6">
-                                           <div class="input-group">
-                                            <div class="input-group-addon">
-                                              <span class="text-info">LT3</span>
-                                            </div>
                                                 <div class="btn-group" data-toggle="buttons">
                                                   <label class="btn btn-primary">
                                                      <input type="radio" id="forecast" value="false" name="forecast"/>
@@ -666,7 +546,6 @@
                                                     Yes
                                                   </label>
                                                 </div>
-                                           </div>
                                         </div>
                                     </div>
                                 -->
@@ -675,15 +554,10 @@
                                     <div class="form-group">
                                         <label for="forecast" class="control-label col-md-3">3 day forecast</label>
                                         <div class="col-md-6">
-                                           <div class="input-group">
-                                            <div class="input-group-addon">
-                                              <span class="text-info">LT3</span>
-                                            </div>
                                             <select type="text" name="forecast" id="forecast" class="form-control" />
                                                 <option value="false">No</option>
                                                 <option value="true">Yes</option>
                                             </select>
-                                           </div>
                                         </div>
                                     </div>
                                 
@@ -759,9 +633,6 @@
                         'start': $('#start').val(),
                         'end': $('#end').val(),
                         'timer': $('#timer').val(),
-                        'UUID': $('#UUID').val(),
-                        'lt': $('#lt').val(),
-                        'key': $.trim($('#key').val()),
                         //'forecast': $('input:radio[name=forecast]:checked').val(),
                         'forecast': $('#forecast').val(),
                         'seconds': $('input:radio[name=seconds]:checked').val(),
@@ -780,9 +651,6 @@
                     
                     //Fill the Wind Speed options
                      //fillWindSpeed(getQueryVariable("#units"));
-                    //Disable the UUID. this is merely informational
-                    //$('#UUID').prop('disabled', true);
-                    $('#lt').prop('disabled', true);
                     $('#b-submit').click(function() {
                     	document.location = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(saveOptions()));
                     });
@@ -838,9 +706,6 @@
                     $('#start').val(getQueryVariable('start')).change();
                     $('#end').val(getQueryVariable('end')).change();
                     $('#timer').val(getQueryVariable('timer')).change();
-                    $('#UUID').val(getQueryVariable('UUID'));
-                    $('#lt').val(getQueryVariable('lt'));
-                    $('#key').val($.trim(getQueryVariable('key')));
                     /*
                     if (getQueryVariable('forecast') == "false") {
                         $('input:radio[name=forecast][value=false]').prop('checked', true).trigger("click");
@@ -871,7 +736,6 @@
                     } else {
                         $('input:radio[name=hide_bat][value=true]').prop('checked', true).trigger("click");
                     }
-                    $('#os0').val(getQueryVariable('UUID'));
                     // Disable location field based on GPS toggle
                     //$('#location').prop('disabled', $('#gps_switch').val() == "true");
                     //$('#gps_switch').change(function() {
