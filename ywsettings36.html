@@ -19,6 +19,10 @@
             }
             body { padding-top: 52px; }
 
+            /* Remove accordion — show everything expanded, hide the toggle headers */
+            .panel-heading { display: none; }
+            .panel-collapse { display: block !important; height: auto !important; overflow: visible !important; }
+
             /* Toggle buttons: dark/muted when off, bright green + checkmark when on */
             .btn-group[data-toggle="buttons"] .btn {
                 background-color: #1a252f;
