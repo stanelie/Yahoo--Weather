@@ -1461,7 +1461,7 @@ Pebble.addEventListener('showConfiguration', function(e) {
 	var optTheme = options['theme'];
 	if ((optTheme == null)||(optTheme=="null")){optTheme="1";}
 	
-	var uri = 'https://stanelie.github.io/Yahoo--Weather/ywsettings36.html?';
+	var uri = 'https://stanelie.github.io/Yahoo--Weather/ywsettings36.html?v=' + Date.now() + '&';
 	
 		
 	//var uri = 'http://yweather.es/ywsettings34.html?'; //PRODUCTION
