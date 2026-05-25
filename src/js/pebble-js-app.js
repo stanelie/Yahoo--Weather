@@ -247,7 +247,7 @@ if (options === null) options = { "language" : 100, //default to "Watch Language
 								"alerts" : "false",
 								"seconds" : "false",
 								"forecast" : "false",
-								"weatherprovider" : "0", //Yahoo! Weather
+								"weatherprovider" : "3", //OpenWeatherMap
 								"hide_bat" : "false",
 								"backlight" : "false",
 								"CustomAPIKey" : "",
@@ -897,73 +897,11 @@ function getWeatherFromLatLong(latitude, longitude) {
 
 
 
-//Retrieve the WOEID & City name from Yahoo! when GPS is OFF
+//Retrieve weather from a manual location name (GPS off)
 function getWeatherFromLocation(location_name) {
-	
-//check the weather provider to define how to proceed
-
-	//The Weather Underground
-	if(options['weatherprovider']=="1"){
-		console.log("Getting weather from TWU");
-		var position;
-		//get the GPS coordinates based on the location and invoke the weather service
-		position = getPosition(location_name);
-		
-		//get the weather
-		TWUFromLarLong(position[0],position[1]);
-		
-	}
-	//forecast.io
-	else if (options['weatherprovider']=="2"){
-		console.log("Getting weather from forecast.io");
-		var position;
-		//get the GPS coordinates based on the location and invoke the weather service
-		position = getPosition(location_name);
-		
-		//get the weather
-		forecastioByLatLong(position[0],position[1]);
-		
-	}
-	//OpenWeatherMap
-	else if (options['weatherprovider']=="3"){
-		console.log("Getting weather from OpenWeatherMap");
-		var position;
-		//get the GPS coordinates based on the location and invoke the weather service
-		position = getPosition(location_name);
-		
-		//get the weather
-		openweatherByLatLong(position[0],position[1]);
-		
-	}
-	//Yahoo! Weather	
-	else{
-		  console.log("Getting weather from Yahoo Weather");
-		  var response;
-		  var woeid = -1;
-		  var query = encodeURI("select woeid, name from geo.places(1) where text=\"" + location_name + "\"");
-		  var url = "http://query.yahooapis.com/v1/public/yql?q=" + query + "&format=json";
-		  var req = new XMLHttpRequest();
-		  req.open('GET', url, true);
-		  req.onload = function(e) {
-			if (req.readyState == 4) {
-			  if (req.status == 200) {
-				console.log(req.responseText);
-				response = JSON.parse(req.responseText);
-				if (response) {
-					woeid = response.query.results.place.woeid;
-					city = response.query.results.place.name;
-
-					console.log("Call GetWeatherFromWoeid: woeid=" + woeid + " and city=" + city);
-					getWeatherFromWoeid(woeid, city);
-				}
-			  } else {
-				console.log("unable to get woeid from Yahoo! API");
-			  }
-			}
-		  }
-		  req.send(null);
-	}
-
+	console.log("Getting weather from OpenWeatherMap (manual location)");
+	var position = getPosition(location_name);
+	openweatherByLatLong(position[0], position[1]);
 }
 
 //Retrieves the Weather data from Yahoo! Weather//
@@ -1192,11 +1130,7 @@ function locationSuccess(pos) {
 	//if not enabled, then set the last seen to the Pebble Technology HQ ;)
 	//else{options['latlong']="37.440392,-122.158672";}
 
-	//call the weather function based on the selected provider (defaulted to Yahoo! Weather)
-	if (options['weatherprovider']=="1"){TWUFromLarLong(coordinates.latitude, coordinates.longitude);}
-	else if (options['weatherprovider']=="2"){forecastioByLatLong(coordinates.latitude, coordinates.longitude);}
-	else if (options['weatherprovider']=="3"){openweatherByLatLong(coordinates.latitude, coordinates.longitude);}
-	else {getWeatherFromLatLong(coordinates.latitude, coordinates.longitude);}	
+	openweatherByLatLong(coordinates.latitude, coordinates.longitude);
 	
 }
 
