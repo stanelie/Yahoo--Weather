@@ -21,54 +21,27 @@ void battery_update_proc(Layer *layer, GContext *ctx){
 	
   //When Charging
   if (intBatteryLevel == -1){
-      graphics_context_set_stroke_color(ctx, GColorYellow);
+      graphics_context_set_stroke_color(ctx, GColorWhite);
       graphics_context_set_stroke_width(ctx, lineWidth);
       graphics_draw_arc(ctx, rect, GOvalScaleModeFitCircle,0, TRIG_MAX_ANGLE);
-    
+
   }
   //When Discharging
   else{
-  
+
 	  #ifdef PBL_RECT
 	  //Draw the outfill battery circle (on squared watches only)
-	  	#ifdef PBL_COLOR
-		  graphics_context_set_stroke_color(ctx, GColorDarkGray);
-		  graphics_context_set_stroke_width(ctx, lineWidth);
-		  graphics_draw_arc(ctx, rect, GOvalScaleModeFitCircle,0, TRIG_MAX_ANGLE);
-	  /*
-	  	#else
-	   	  graphics_context_set_stroke_color(ctx, GColorWhite);
-		  graphics_context_set_stroke_width(ctx, 1);
-		  graphics_draw_arc(ctx, rect, GOvalScaleModeFitCircle,0, TRIG_MAX_ANGLE);
-	 */
-	  	#endif
-
+	  graphics_context_set_stroke_color(ctx, GColorDarkGray);
+	  graphics_context_set_stroke_width(ctx, lineWidth);
+	  graphics_draw_arc(ctx, rect, GOvalScaleModeFitCircle,0, TRIG_MAX_ANGLE);
 	  #endif
-	  
+
      int maxAngle = intBatteryLevel * TRIG_MAX_ANGLE / 100;
-    //set the stroke color based on the remaining battery life
-	 
-	#ifdef PBL_COLOR
-    if (intBatteryLevel < 30){
-      graphics_context_set_stroke_color(ctx, GColorRed);
-    }
-    else if (intBatteryLevel < 50) {
-      graphics_context_set_stroke_color(ctx, GColorOrange);
-    }
-    else if (intBatteryLevel < 70) {
-      graphics_context_set_stroke_color(ctx, GColorYellow);
-    }
-    else{
-      graphics_context_set_stroke_color(ctx, GColorGreen);
-    }
-	#else
-	   graphics_context_set_stroke_color(ctx, GColorWhite);
-	#endif
-      
+      graphics_context_set_stroke_color(ctx, GColorWhite);
 	  //Draw the battery level
       graphics_context_set_stroke_width(ctx, lineWidth);
       graphics_draw_arc(ctx, rect, GOvalScaleModeFitCircle,0, maxAngle);
-	 
+
   }
 #else
 	  graphics_context_set_stroke_color(ctx, GColorWhite);

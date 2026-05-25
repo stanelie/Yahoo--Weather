@@ -421,12 +421,7 @@ void refreshLayers(int intKEY, const Tuple* newTuple){
 			}
 			
 
-			//Define the text color based on the Pebble model
-			#ifdef PBL_COLOR
-				text_layer_set_text_color(Time_Layer, GColorChromeYellow);
-			#else
-				text_layer_set_text_color(Time_Layer, GColorWhite);
-			#endif
+			text_layer_set_text_color(Time_Layer, GColorWhite);
 
 			text_layer_set_background_color(Time_Layer, GColorClear);
 			text_layer_set_font(Time_Layer, font_time);
