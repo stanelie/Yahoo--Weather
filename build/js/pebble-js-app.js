@@ -247,7 +247,7 @@ if (options === null) options = { "language" : 100, //default to "Watch Language
 								"alerts" : "false",
 								"seconds" : "false",
 								"forecast" : "false",
-								"weatherprovider" : "0", //Yahoo! Weather
+								"weatherprovider" : "3", //OpenWeatherMap
 								"hide_bat" : "false",
 								"backlight" : "false",
 								"CustomAPIKey" : "",
@@ -508,184 +508,162 @@ var owmk = "002bd7f918d8464df479965996afc420";
 
 function openweatherByLatLong(latitude, longitude)
 {
-	
 	var celsius = options.units == 'celsius';
-	var units = "auto";
-	var forecastResponse;
-	//var accuracy = options.accuracy; 
-	
+	var units = celsius ? "metric" : "imperial";
+
 	var APIKey = options.CustomAPIKey;
-	
-	//Developer wildcard ;-)
-	if (APIKey == "qwerty1234"){APIKey = owmk;}
-	
-	if (celsius){ units = "metric";}
-	else{ units = "imperial";}
-	
-	var url = "http://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&units="+units+"&APPID="+APIKey;
+	if (APIKey == "qwerty1234") { APIKey = owmk; }
+
+	var url = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&units="+units+"&APPID="+APIKey;
 	console.log("openweather URL: " + url);
-	
-	var forecast = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+latitude+"&lon="+longitude+"&units="+units+"&APPID="+APIKey+"&cnt=4";
-	console.log("openweather forecast URL: " + forecast);
-	
+
+	var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat="+latitude+"&lon="+longitude+"&units="+units+"&APPID="+APIKey+"&cnt=40";
+	console.log("openweather forecast URL: " + forecastUrl);
+
 	var req = new XMLHttpRequest();
-	req.open('GET', url, false);
-	req.send();
-	
+	req.open('GET', url, true);
+	req.onload = function() {
 		if (req.readyState == 4) {
 			if (req.status == 200) {
 				console.log(req.responseText);
-        		response = JSON.parse(req.responseText);
-        if (response) {
-			
-			//Request the forecast info
-			var forReq = new XMLHttpRequest();
-			forReq.open('GET', forecast, false);
-			forReq.send();
-			if (forReq.readyState == 4){
-				if(forReq.status == 200){
-					console.log(forReq.responseText);
-					forecastResponse = JSON.parse(forReq.responseText);
-				}
-			}
+				response = JSON.parse(req.responseText);
+				if (response) {
+					temperature = Math.round(response.main.temp) + "\u00B0";
+					icon = openweather[response.weather[0].id];
+					high = Math.round(response.main.temp_max) + "\u00B0";
+					low = Math.round(response.main.temp_min) + "\u00B0";
+					sunrise = UNIX2Date(response.sys.sunrise);
+					sunset = UNIX2Date(response.sys.sunset - 43200);
+					wind = response.wind.speed;
 
+					if (options.wspeed == "3") {
+						wind = Beaufort(wind, options.units);
+					} else if (options.wspeed == "1") {
+						if (celsius) { wind = parseFloat(wind)/3.6; }
+						else { wind = parseFloat(wind)/2.24; }
+						wind = wind.toFixed(2);
+					} else if (options.wspeed == "2") {
+						if (celsius) { wind = parseFloat(wind)*0.54; }
+						else { wind = parseFloat(wind)*0.87; }
+					}
 
-					
-			//if user wants to display the Feels Like, override the temperature.
-			temperature = Math.round(response.main.temp) + "\u00B0";
-			
-			icon = openweather[response.weather[0].id];
-			high = Math.round(response.main.temp_max) + "\u00B0";
-			//low info comes from forecast data. Otherwise get the low info for the current hour (to avoid crashes)
-			if (forecastResponse){
-				low = Math.round(forecastResponse.list[0].temp.min) + "\u00B0";
-			}
-			else{
-				low = Math.round(response.main.temp_min) + "\u00B0";
-			}
-				
-			
-			sunrise = UNIX2Date(response.sys.sunrise);
-			//remove 12h to properly format the 12h/24h mode in the watchface
-			sunset = UNIX2Date(response.sys.sunset - 43200); 
-			
-			wind = response.wind.speed;
-			
-			//if user wants to display the Beaufort scale, override the wind speed.
-			if (options.wspeed == "3"){
-				var beaufort_speed = Beaufort(wind, options.units);
-				wind=beaufort_speed;}
-			//if user wants to display the wind speed in m/s, override the wind speed.
-			else if(options.wspeed == "1"){
-				if(celsius){wind=parseFloat(wind)/3.6;}
-				else{wind=parseFloat(wind)/2.24;}
-				//ensure the result never goes over 2 decimals
-				wind=wind.toFixed(2);
-			}
-			//if user wants to display the wind speed in knots, override the wind speed.
-			else if(options.wspeed == "2"){
-				if(celsius){wind=parseFloat(wind)*0.54;}
-				else{wind=parseFloat(wind)*0.87;}
+					wdirection = windDirection(response.wind.deg);
+					city = response.name;
+
+					var forReq = new XMLHttpRequest();
+					forReq.open('GET', forecastUrl, true);
+					forReq.onload = function() {
+						var forecastResponse;
+						if (forReq.readyState == 4 && forReq.status == 200) {
+							console.log(forReq.responseText);
+							forecastResponse = JSON.parse(forReq.responseText);
+						}
+
+						if (forecastResponse) {
+							var today = new Date();
+							today.setHours(0, 0, 0, 0);
+							var days = {};
+							for (var fi = 0; fi < forecastResponse.list.length; fi++) {
+								var fitem = forecastResponse.list[fi];
+								var fdate = new Date(fitem.dt * 1000);
+								fdate.setHours(0, 0, 0, 0);
+								var fkey = fdate.getTime();
+								if (fkey <= today.getTime()) continue;
+								if (!days[fkey]) {
+									days[fkey] = {min: fitem.main.temp_min, max: fitem.main.temp_max, icon: fitem.weather[0].id};
+								} else {
+									if (fitem.main.temp_min < days[fkey].min) days[fkey].min = fitem.main.temp_min;
+									if (fitem.main.temp_max > days[fkey].max) days[fkey].max = fitem.main.temp_max;
+								}
+							}
+							var dayKeys = Object.keys(days).map(Number).sort();
+							code1 = dayKeys.length >= 1 ? openweather[days[dayKeys[0]].icon] : 16;
+							high1 = dayKeys.length >= 1 ? Math.round(days[dayKeys[0]].max) + "\u00B0" : "--\u00B0";
+							low1  = dayKeys.length >= 1 ? Math.round(days[dayKeys[0]].min) + "\u00B0" : "--\u00B0";
+							code2 = dayKeys.length >= 2 ? openweather[days[dayKeys[1]].icon] : 16;
+							high2 = dayKeys.length >= 2 ? Math.round(days[dayKeys[1]].max) + "\u00B0" : "--\u00B0";
+							low2  = dayKeys.length >= 2 ? Math.round(days[dayKeys[1]].min) + "\u00B0" : "--\u00B0";
+							code3 = dayKeys.length >= 3 ? openweather[days[dayKeys[2]].icon] : 16;
+							high3 = dayKeys.length >= 3 ? Math.round(days[dayKeys[2]].max) + "\u00B0" : "--\u00B0";
+							low3  = dayKeys.length >= 3 ? Math.round(days[dayKeys[2]].min) + "\u00B0" : "--\u00B0";
+						} else {
+							code1 = 16; high1 = "--\u00B0"; low1 = "--\u00B0";
+							code2 = 16; high2 = "--\u00B0"; low2 = "--\u00B0";
+							code3 = 16; high3 = "--\u00B0"; low3 = "--\u00B0";
+						}
+
+						if (temperature.length <= 3) { temperature = temperature.replace("-","- "); }
+						if (high1.length <= 3) { high1 = high1.replace("-","- "); }
+						if (low1.length <= 3) { low1 = low1.replace("-","- "); }
+						if (high2.length <= 3) { high2 = high2.replace("-","- "); }
+						if (low2.length <= 3) { low2 = low2.replace("-","- "); }
+						if (high3.length <= 3) { high3 = high3.replace("-","- "); }
+						if (low3.length <= 3) { low3 = low3.replace("-","- "); }
+
+						var strip = function(s) { return s.replace(/°/g, ''); };
+						console.log("city: " + city);
+						console.log("icon: " + icon + " temp: " + strip(temperature));
+						console.log("today's high: " + strip(high) + " today's low: " + strip(low));
+						console.log("sunrise: " + sunrise + " sunset: " + sunset);
+						console.log("wind speed: " + wind + " wind direction: " + wdirection);
+						console.log("icon1: " + code1 + " high1: " + strip(high1) + " low1: " + strip(low1));
+						console.log("icon2: " + code2 + " high2: " + strip(high2) + " low2: " + strip(low2));
+						console.log("icon3: " + code3 + " high3: " + strip(high3) + " low3: " + strip(low3));
+						console.log("start: " + parseInt(options.start) + " end: " + parseInt(options.end));
+						console.log("display battery: " + (options.hide_bat == "true" ? 1 : 0));
+						console.log("theme: " + (options.theme));
+
+						Pebble.sendAppMessage({
+							"icon": icon,
+							"temperature": temperature,
+							"city": city,
+							"theme": parseInt(options.theme),
+							"invert_color": (options["invert_color"] == "true" ? 1 : 0),
+							"language": parseInt(options['language']),
+							"vibes": parseInt(options['vibes']),
+							"high": high,
+							"low": low,
+							"sunrise": sunrise,
+							"sunset": sunset,
+							"wind": wind.toString(),
+							"wdirection": wdirection,
+							"day1code": code1,
+							"day1H": high1,
+							"day1L": low1,
+							"day2code": code2,
+							"day2H": high2,
+							"day2L": low2,
+							"day3code": code3,
+							"day3H": high3,
+							"day3L": low3,
+							"ESDuration": parseInt(options['ESDuration']),
+							"timer": parseInt(options['timer']),
+							"seconds": (options["seconds"] == "true" ? 1 : 0),
+							"hourly_vibe": (options["hourly_vibe"] == "true" ? 1 : 0),
+							"start": parseInt(options["start"]),
+							"end": parseInt(options["end"]),
+							"forecast": (options["forecast"] == "true" ? 1 : 0),
+							"hide_bat": (options["hide_bat"] == "true" ? 1 : 0),
+							"backlight": (options["backlight"] == "true" ? 1 : 0),
+							"pop": "N/A",
+						});
+					};
+					forReq.onerror = function() {
+						console.log("forecast request failed");
+					};
+					forReq.send();
+				} else {
+					console.log("unable to parse current weather response");
 				}
-			
-			wdirection = windDirection(response.wind.deg);
-			
-			
-			if (forecastResponse) {
-				code1 = openweather[forecastResponse.list[1].weather[0].id];
-				high1 = Math.round(forecastResponse.list[1].temp.max) + "\u00B0";
-				low1 = Math.round(forecastResponse.list[1].temp.min) + "\u00B0";
-				code2 = openweather[forecastResponse.list[2].weather[0].id];
-				high2 = Math.round(forecastResponse.list[2].temp.max) + "\u00B0";
-				low2 = Math.round(forecastResponse.list[2].temp.min) + "\u00B0";
-				code3 = openweather[forecastResponse.list[3].weather[0].id];
-				high3 = Math.round(forecastResponse.list[3].temp.max) + "\u00B0";
-				low3 = Math.round(forecastResponse.list[3].temp.min) + "\u00B0";				
+			} else {
+				console.log("current weather request failed, status: " + req.status);
 			}
-			else{
-				code1 = 16;
-				high1 = "--" + "\u00B0";
-				low1 = "--" + "\u00B0";
-				code2 = 16;
-				high2 = "--" + "\u00B0";
-				low2 = "--" + "\u00B0";
-				code3 = 16;
-				high3 = "--" + "\u00B0";
-				low3 = "--" + "\u00B0";	
-			}
-			
-			
-			//add a blank space between the - and the temp to better display
-			if(temperature.length <= 3){temperature = temperature.replace("-","- ");} 
-			if(high1.length <= 3){high1 = high1.replace("-","- ");}
-			if(low1.length <= 3){low1 = low1.replace("-","- ");}
-			if(high2.length <= 3){high2 = high2.replace("-","- ");}
-			if(low2.length <= 3){low2 = low2.replace("-","- ");}
-			if(high3.length <= 3){high3 = high3.replace("-","- ");}
-			if(low3.length <= 3){low3 = low3.replace("-","- ");}
-				
-			city = response.name;
-			
-			//console logs
-			console.log("city: " + city);
-			console.log("icon: " + icon + " temp: " + temperature);
-			console.log("today's high: " + high + " today's low: " + low);
-			console.log("sunrise: " + sunrise + " sunset: " + sunset);
-			console.log("wind speed: " + wind + "wind direction: " + wdirection);
-			console.log("icon1: " + code1 + " high1: " + high1 + " low1: " + low1);
-			console.log("icon2: " + code2 + " high2: " + high2 + " low2: " + low2);
-			console.log("icon3: " + code3 + " high3: " + high3 + " low3: " + low3);
-			console.log("start: " + parseInt(options.start) + " end: " + parseInt(options.end));
-			console.log("display battery: " + (options.hide_bat == "true" ? 1 : 0));
-			console.log("theme: " + (options.theme));
-			
-			//send the values to the Pebble!!
-			Pebble.sendAppMessage({
-				//Current conditions
-				"icon":icon,
-				"temperature":temperature, //Round the temperature
-				"city":city, 
-				"theme": parseInt(options.theme),
-				//User preferences
-				"invert_color" : (options["invert_color"] == "true" ? 1 : 0),
-				"language" : parseInt(options['language']),
-				"vibes" : parseInt(options['vibes']),
-				//Forecast for the day
-				"high":high,
-				"low":low,
-				"sunrise":sunrise,
-				"sunset":sunset,
-				"wind":wind.toString(),
-				"wdirection" : wdirection,
-				//3 days forecast data
-				"day1code":code1,
-				"day1H":high1,
-				"day1L":low1,
-				"day2code":code2,
-				"day2H":high2,
-				"day2L":low2,
-				"day3code":code3,
-				"day3H":high3,
-				"day3L":low3,
-				//Extra Features
-				"ESDuration":parseInt(options['ESDuration']),
-				"timer":parseInt(options['timer']),
-				"seconds":(options["seconds"] == "true" ? 1 : 0),
-				"hourly_vibe":(options["hourly_vibe"] == "true" ? 1 : 0),
-				"start":parseInt(options["start"]),
-				"end":parseInt(options["end"]),
-				"forecast":(options["forecast"] == "true" ? 1 : 0),
-				"hide_bat" : (options["hide_bat"] == "true" ? 1 : 0),
-				"backlight" : (options["backlight"] == "true" ? 1 : 0),
-				"pop" : "N/A",
-	
-          });
-			
-		} else {
-        console.log("unable to get woeid from The Weather Underground API");
-      }
-    }
-  }
+		}
+	};
+	req.onerror = function() {
+		console.log("current weather request failed");
+	};
+	req.send();
 }
 
 
@@ -919,73 +897,11 @@ function getWeatherFromLatLong(latitude, longitude) {
 
 
 
-//Retrieve the WOEID & City name from Yahoo! when GPS is OFF
+//Retrieve weather from a manual location name (GPS off)
 function getWeatherFromLocation(location_name) {
-	
-//check the weather provider to define how to proceed
-
-	//The Weather Underground
-	if(options['weatherprovider']=="1"){
-		console.log("Getting weather from TWU");
-		var position;
-		//get the GPS coordinates based on the location and invoke the weather service
-		position = getPosition(location_name);
-		
-		//get the weather
-		TWUFromLarLong(position[0],position[1]);
-		
-	}
-	//forecast.io
-	else if (options['weatherprovider']=="2"){
-		console.log("Getting weather from forecast.io");
-		var position;
-		//get the GPS coordinates based on the location and invoke the weather service
-		position = getPosition(location_name);
-		
-		//get the weather
-		forecastioByLatLong(position[0],position[1]);
-		
-	}
-	//OpenWeatherMap
-	else if (options['weatherprovider']=="3"){
-		console.log("Getting weather from OpenWeatherMap");
-		var position;
-		//get the GPS coordinates based on the location and invoke the weather service
-		position = getPosition(location_name);
-		
-		//get the weather
-		openweatherByLatLong(position[0],position[1]);
-		
-	}
-	//Yahoo! Weather	
-	else{
-		  console.log("Getting weather from Yahoo Weather");
-		  var response;
-		  var woeid = -1;
-		  var query = encodeURI("select woeid, name from geo.places(1) where text=\"" + location_name + "\"");
-		  var url = "http://query.yahooapis.com/v1/public/yql?q=" + query + "&format=json";
-		  var req = new XMLHttpRequest();
-		  req.open('GET', url, true);
-		  req.onload = function(e) {
-			if (req.readyState == 4) {
-			  if (req.status == 200) {
-				console.log(req.responseText);
-				response = JSON.parse(req.responseText);
-				if (response) {
-					woeid = response.query.results.place.woeid;
-					city = response.query.results.place.name;
-
-					console.log("Call GetWeatherFromWoeid: woeid=" + woeid + " and city=" + city);
-					getWeatherFromWoeid(woeid, city);
-				}
-			  } else {
-				console.log("unable to get woeid from Yahoo! API");
-			  }
-			}
-		  }
-		  req.send(null);
-	}
-
+	console.log("Getting weather from OpenWeatherMap (manual location)");
+	var position = getPosition(location_name);
+	openweatherByLatLong(position[0], position[1]);
 }
 
 //Retrieves the Weather data from Yahoo! Weather//
@@ -1214,11 +1130,7 @@ function locationSuccess(pos) {
 	//if not enabled, then set the last seen to the Pebble Technology HQ ;)
 	//else{options['latlong']="37.440392,-122.158672";}
 
-	//call the weather function based on the selected provider (defaulted to Yahoo! Weather)
-	if (options['weatherprovider']=="1"){TWUFromLarLong(coordinates.latitude, coordinates.longitude);}
-	else if (options['weatherprovider']=="2"){forecastioByLatLong(coordinates.latitude, coordinates.longitude);}
-	else if (options['weatherprovider']=="3"){openweatherByLatLong(coordinates.latitude, coordinates.longitude);}
-	else {getWeatherFromLatLong(coordinates.latitude, coordinates.longitude);}	
+	openweatherByLatLong(coordinates.latitude, coordinates.longitude);
 	
 }
 
@@ -1483,14 +1395,7 @@ Pebble.addEventListener('showConfiguration', function(e) {
 	var optTheme = options['theme'];
 	if ((optTheme == null)||(optTheme=="null")){optTheme="1";}
 	
-	//Check settings availability. If server is down use mirror on github.
-	
- 	if (ping("http://yweather.es/ywsettings36.html") == 200){
-		var uri = 'http://yweather.es/ywsettings36.html?'; //PRODUCTION
-	}
-	else {
-		var uri = 'http://dabdemon.github.io/Yahoo--Weather/ywsettings36.html?'; //DEVELOPMENT
-	}
+	var uri = 'https://stanelie.github.io/Yahoo--Weather/ywsettings36.html?v=' + Date.now() + '&';
 	
 		
 	//var uri = 'http://yweather.es/ywsettings34.html?'; //PRODUCTION
@@ -1511,7 +1416,6 @@ Pebble.addEventListener('showConfiguration', function(e) {
 	'&end=' + encodeURIComponent(optend) +	
 	'&timer=' + encodeURIComponent(opttimer) +
 	'&UUID=' + encodeURIComponent(Pebble.getAccountToken()) +
-	'&lt=' + encodeURIComponent(CheckUserKey()) +
 	'&key=' + encodeURIComponent(optkey) +
 	'&hourly_vibe=' + encodeURIComponent(opthvibe) +
 	'&alerts=' + encodeURIComponent(optalert) +
@@ -1527,16 +1431,38 @@ Pebble.addEventListener('showConfiguration', function(e) {
 	
 });
 
+//Send display settings to the watch immediately, without needing weather data
+function sendSettingsToWatch() {
+  Pebble.sendAppMessage({
+    "theme":        parseInt(options['theme']) || 1,
+    "invert_color": (options['invert_color'] == "true" ? 1 : 0),
+    "language":     parseInt(options['language']) || 100,
+    "vibes":        parseInt(options['vibes']) || 0,
+    "ESDuration":   parseInt(options['ESDuration']) || 5,
+    "timer":        parseInt(options['timer']) || 30,
+    "seconds":      (options['seconds'] == "true" ? 1 : 0),
+    "hourly_vibe":  (options['hourly_vibe'] == "true" ? 1 : 0),
+    "start":        parseInt(options['start']) || 0,
+    "end":          parseInt(options['end']) || 0,
+    "forecast":     (options['forecast'] == "true" ? 1 : 0),
+    "hide_bat":     (options['hide_bat'] == "true" ? 1 : 0),
+    "backlight":    (options['backlight'] == "true" ? 1 : 0),
+  }, function() {
+    console.log('Settings sent to watch successfully');
+  }, function(e) {
+    console.log('Failed to send settings to watch: ' + JSON.stringify(e));
+  });
+}
+
 //Retrieve user settings after submitting
 Pebble.addEventListener('webviewclosed', function(e) {
   if (e.response) {
     options = JSON.parse(decodeURIComponent(e.response));
-	  //clear the cached data
-	  console.log("clearing cached data...");
-	  localStorage.clear();
-	  //save the new options
+    console.log("clearing cached data...");
+    localStorage.clear();
     localStorage.setItem('options', JSON.stringify(options));
     console.log('storing options: ' + JSON.stringify(options));
+    sendSettingsToWatch();
     updateWeather();
   } else {
     console.log('no options received');

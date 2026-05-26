@@ -35,12 +35,12 @@
         "wind": 10
     },
     "capabilities": [
-        "configurable",
-        "location"
+        "location",
+        "configurable"
     ],
     "companyName": "David Rodr\u00edguez Rinc\u00f3n",
     "enableMultiJS": false,
-    "longName": "YWeather",
+    "longName": "YWeather2",
     "projectType": "native",
     "resources": {
         "media": [
@@ -65,7 +65,7 @@
                 "type": "bitmap"
             },
             {
-                "file": "images/YWeather_Menu.png",
+                "file": "images/YWeather_Menu_rect.png",
                 "menuIcon": true,
                 "name": "Menu_Image",
                 "targetPlatforms": null,
@@ -428,13 +428,13 @@
         ]
     },
     "sdkVersion": "3",
-    "shortName": "YWeather",
+    "shortName": "YWeather2",
     "targetPlatforms": [
         "aplite",
         "basalt",
         "chalk"
     ],
-    "uuid": "35a28a4d-0c9f-408f-9c6d-551e65f03186",
+    "uuid": "a12838d3-d816-42b4-bad4-c33fac09ee5b",
     "versionLabel": "3.6",
     "watchapp": {
         "watchface": true
