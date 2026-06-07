@@ -19,6 +19,7 @@ def options(ctx):
 
 def configure(ctx):
     ctx.load('pebble_sdk')
+    ctx.env.BUNDLE_NAME = 'yweather2.pbw'
     global hint
     if hint is not None:
         hint = hint.bake(['--config', 'pebble-jshintrc'])

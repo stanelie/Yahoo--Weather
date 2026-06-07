@@ -10,16 +10,28 @@
 
 	//DATE AND TIME
 
-	#define WEEKDAY_FRAME 			PBL_IF_ROUND_ELSE(GRect(30, 20, 120, 168-145),GRect(5, 2, 110, 168-145))
-	//#define BT_FRAME        		PBL_IF_ROUND_ELSE(GRect(20, 109, 140, 2),GRect(127, 13, 23, 168-146))
-	#define BT_FRAME        		PBL_IF_ROUND_ELSE(GRect(20, 109, 140, 2),GRect(120, 3, 23, 23))
-	#define TIME_FRAME      		PBL_IF_ROUND_ELSE(GRect(0, 48, 180, 168-16),GRect(0, 15, 144, 168-16))
-	#define TIME_FRAME_SECONDS 		PBL_IF_ROUND_ELSE(GRect(0, 48, 130, 168-16),GRect(0, 15, 116, 168-16))
-	#define TIME_FRAME_ANIMATED     GRect(0, 20, 180, 168-16)
-	#define DATE_FRAME      		PBL_IF_ROUND_ELSE(GRect(25, 35, 130, 168-62),GRect(1, 70, 139, 168-62))
-	#define BATT_FRAME      		PBL_IF_ROUND_ELSE(GRect(1000, 1, 1000, 1),GRect(119, 8, 25, 10))
-	#define SECONDS_FRAME    		PBL_IF_ROUND_ELSE(GRect(135, 83, 32, 22),GRect(117, 50, 32, 22))
-	#define AMPM_FRAME    			PBL_IF_ROUND_ELSE(GRect(135, 73, 32, 22),GRect(117, 40, 32, 22))
+	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+		#define WEEKDAY_FRAME           GRect(7, 3, 152, 31)
+		#define BT_FRAME                GRect(167, 4, 32, 32)
+		#define TIME_FRAME              GRect(0, 20, 200, 208)
+		#define TIME_FRAME_SECONDS      GRect(0, 20, 161, 208)
+		#define TIME_FRAME_ANIMATED     GRect(0, 20, 200, 208)
+		#define DATE_FRAME              GRect(1, 95, 193, 90)
+		#define BATT_FRAME              GRect(167, 12, 32, 14)
+		#define SECONDS_FRAME           GRect(162, 68, 38, 30)
+		#define AMPM_FRAME              GRect(162, 54, 38, 30)
+	#else
+		#define WEEKDAY_FRAME 			PBL_IF_ROUND_ELSE(GRect(30, 20, 120, 168-145),GRect(5, 2, 110, 168-145))
+		//#define BT_FRAME        		PBL_IF_ROUND_ELSE(GRect(20, 109, 140, 2),GRect(127, 13, 23, 168-146))
+		#define BT_FRAME        		PBL_IF_ROUND_ELSE(GRect(20, 109, 140, 2),GRect(120, 3, 23, 23))
+		#define TIME_FRAME      		PBL_IF_ROUND_ELSE(GRect(0, 48, 180, 168-16),GRect(0, 15, 144, 168-16))
+		#define TIME_FRAME_SECONDS 		PBL_IF_ROUND_ELSE(GRect(0, 48, 130, 168-16),GRect(0, 15, 116, 168-16))
+		#define TIME_FRAME_ANIMATED     GRect(0, 20, 180, 168-16)
+		#define DATE_FRAME      		PBL_IF_ROUND_ELSE(GRect(25, 35, 130, 168-62),GRect(1, 70, 139, 168-62))
+		#define BATT_FRAME      		PBL_IF_ROUND_ELSE(GRect(1000, 1, 1000, 1),GRect(119, 8, 25, 10))
+		#define SECONDS_FRAME    		PBL_IF_ROUND_ELSE(GRect(135, 83, 32, 22),GRect(117, 50, 32, 22))
+		#define AMPM_FRAME    			PBL_IF_ROUND_ELSE(GRect(135, 73, 32, 22),GRect(117, 40, 32, 22))
+	#endif
 
 	TextLayer *date_layer;          //Layer for the date
 	TextLayer *Time_Layer;          //Layer for the time
@@ -37,10 +49,17 @@
 
 	//WEATHER
 
-	#define WEATHER_FRAME     	PBL_IF_ROUND_ELSE(GRect(110, 142, 20, 20),GRect(5, 90, 60, 60))
-	#define TEMPERATURE_FRAME 	PBL_IF_ROUND_ELSE(GRect(0, 117, 128, 60),GRect(58, 95, 94, 60))
-	#define LOCATION_FRAME		PBL_IF_ROUND_ELSE(GRect(0, 112, 180, 20),GRect(1, 148, 110, 20))
-	#define LAST_UPDATE_FRAME 	PBL_IF_ROUND_ELSE(GRect(1000, 1, 1000, 1),GRect(110, 148, 34, 20))
+	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+		#define WEATHER_FRAME           GRect(7, 122, 83, 83)
+		#define TEMPERATURE_FRAME       GRect(81, 129, 119, 83)
+		#define LOCATION_FRAME          GRect(0, 210, 155, 18)
+		#define LAST_UPDATE_FRAME       GRect(155, 210, 45, 18)
+	#else
+		#define WEATHER_FRAME     	PBL_IF_ROUND_ELSE(GRect(110, 142, 20, 20),GRect(5, 90, 60, 60))
+		#define TEMPERATURE_FRAME 	PBL_IF_ROUND_ELSE(GRect(0, 117, 128, 60),GRect(58, 95, 94, 60))
+		#define LOCATION_FRAME		PBL_IF_ROUND_ELSE(GRect(0, 112, 180, 20),GRect(1, 148, 110, 20))
+		#define LAST_UPDATE_FRAME 	PBL_IF_ROUND_ELSE(GRect(1000, 1, 1000, 1),GRect(110, 148, 34, 20))
+	#endif
 
 	static GBitmap *weather_image;			//Bitmap for the Weather Icon	
     static BitmapLayer *weather_icon_layer; //Layer for the weather info	
@@ -50,22 +69,38 @@
 
 	//FORECAST
 
-	#define LOW_FRAME			PBL_IF_ROUND_ELSE((GRect(112, 90, 47, 60)),(GRect(100, 93, 47, 60))) 
-	#define LOW_ICON_FRAME 		PBL_IF_ROUND_ELSE((GRect(101, 86, 26, 26)),(GRect(81, 92, 26, 26)))
-	#define HIGH_FRAME 			PBL_IF_ROUND_ELSE((GRect(112, 113, 47, 168-108)),(GRect(100, 115, 47, 168-108)))
-	#define HIGH_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(101, 109, 26, 26)),(GRect(81, 115, 26, 26))) 
-	#define SUNRISE_FRAME 		PBL_IF_ROUND_ELSE((GRect(50, 90, 50, 168-108)),(GRect(30, 95, 50, 168-108))) 
-	#define SUNRISE_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(21, 92, 26, 17)),(GRect(1, 98, 26, 17))) 
-	#define SUNSET_FRAME 		PBL_IF_ROUND_ELSE((GRect(48, 113, 50, 168-108)),(GRect(28, 115, 50, 168-108))) 
-	#define SUNSET_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(21, 112, 26, 17)),(GRect(1, 118, 26, 17))) 
-	//#define WIND_FRAME 			PBL_IF_ROUND_ELSE((GRect(70, 135, 50, 168-108)),(GRect(30, 135, 50, 168-108))) 
-	#define WIND_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(40, 130, 26, 26)),(GRect(1, 138, 26, 26))) 
-	#define WDIRECTION_FRAME 	PBL_IF_ROUND_ELSE((GRect(50, 155, 50, 168-108)),(GRect(30, 155, 50, 168-108))) 
-	//#define POP_FRAME 			PBL_IF_ROUND_ELSE((GRect(100, 135, 45, 168-108)),(GRect(100, 135, 45, 168-108))) 
-	//#define RAIN_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(102, 130, 26, 26)),(GRect(81, 135, 26, 26))) 	
-	#define RAIN_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(118, 130, 26, 26)),(GRect(81, 135, 26, 26))) 
-	#define POP_FRAME 			PBL_IF_ROUND_ELSE((GRect(80, 138, 40, 168-108)),(GRect(100, 135, 45, 168-108))) 
-	#define WIND_FRAME 			PBL_IF_ROUND_ELSE((GRect(70, 138, 50, 168-108)),(GRect(30, 135, 50, 168-108))) 
+	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+		#define LOW_FRAME           GRect(135, 126, 65, 83)
+		#define LOW_ICON_FRAME      GRect(113, 125, 36, 36)
+		#define HIGH_FRAME          GRect(135, 156, 65, 72)
+		#define HIGH_ICON_FRAME     GRect(113, 156, 36, 36)
+		#define SUNRISE_FRAME       GRect(42, 129, 69, 83)
+		#define SUNRISE_ICON_FRAME  GRect(1, 133, 36, 23)
+		#define SUNSET_FRAME        GRect(39, 156, 69, 72)
+		#define SUNSET_ICON_FRAME   GRect(1, 160, 36, 23)
+		#define WIND_ICON_FRAME     GRect(1, 187, 36, 36)
+		#define WDIRECTION_FRAME    GRect(42, 210, 69, 18)
+		#define RAIN_ICON_FRAME     GRect(113, 183, 36, 36)
+		#define POP_FRAME           GRect(139, 183, 61, 45)
+		#define WIND_FRAME          GRect(42, 183, 69, 45)
+	#else
+		#define LOW_FRAME			PBL_IF_ROUND_ELSE((GRect(112, 90, 47, 60)),(GRect(100, 93, 47, 60)))
+		#define LOW_ICON_FRAME 		PBL_IF_ROUND_ELSE((GRect(101, 86, 26, 26)),(GRect(81, 92, 26, 26)))
+		#define HIGH_FRAME 			PBL_IF_ROUND_ELSE((GRect(112, 113, 47, 168-108)),(GRect(100, 115, 47, 168-108)))
+		#define HIGH_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(101, 109, 26, 26)),(GRect(81, 115, 26, 26)))
+		#define SUNRISE_FRAME 		PBL_IF_ROUND_ELSE((GRect(50, 90, 50, 168-108)),(GRect(30, 95, 50, 168-108)))
+		#define SUNRISE_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(21, 92, 26, 17)),(GRect(1, 98, 26, 17)))
+		#define SUNSET_FRAME 		PBL_IF_ROUND_ELSE((GRect(48, 113, 50, 168-108)),(GRect(28, 115, 50, 168-108)))
+		#define SUNSET_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(21, 112, 26, 17)),(GRect(1, 118, 26, 17)))
+		//#define WIND_FRAME 			PBL_IF_ROUND_ELSE((GRect(70, 135, 50, 168-108)),(GRect(30, 135, 50, 168-108)))
+		#define WIND_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(40, 130, 26, 26)),(GRect(1, 138, 26, 26)))
+		#define WDIRECTION_FRAME 	PBL_IF_ROUND_ELSE((GRect(50, 155, 50, 168-108)),(GRect(30, 155, 50, 168-108)))
+		//#define POP_FRAME 			PBL_IF_ROUND_ELSE((GRect(100, 135, 45, 168-108)),(GRect(100, 135, 45, 168-108)))
+		//#define RAIN_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(102, 130, 26, 26)),(GRect(81, 135, 26, 26)))
+		#define RAIN_ICON_FRAME 	PBL_IF_ROUND_ELSE((GRect(118, 130, 26, 26)),(GRect(81, 135, 26, 26)))
+		#define POP_FRAME 			PBL_IF_ROUND_ELSE((GRect(80, 138, 40, 168-108)),(GRect(100, 135, 45, 168-108)))
+		#define WIND_FRAME 			PBL_IF_ROUND_ELSE((GRect(70, 138, 50, 168-108)),(GRect(30, 135, 50, 168-108)))
+	#endif
 
 		
 
@@ -92,22 +127,39 @@
 
 	//3-DAY FORECAST
 
+	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+		#define FORECAST_DAY1_FRAME  GRect(7, 126, 128, 31)
+		#define FORECAST_DAY2_FRAME  GRect(7, 155, 128, 31)
+		#define FORECAST_DAY3_FRAME  GRect(7, 183, 128, 31)
 
-	#define FORECAST_DAY1_FRAME PBL_IF_ROUND_ELSE((GRect( 29, 90, 46, 23)),(GRect(5, 93, 92, 23))) 
-	#define FORECAST_DAY2_FRAME PBL_IF_ROUND_ELSE((GRect( 71, 90, 46, 23)),(GRect(5, 114, 92, 23))) 
-	#define FORECAST_DAY3_FRAME PBL_IF_ROUND_ELSE((GRect(113, 90, 46, 23)),(GRect(5, 135, 92, 23))) 	
+		#define FORECAST_CODE1_FRAME GRect(135, 126, 31, 30)
+		#define FORECAST_CODE2_FRAME GRect(135, 155, 31, 30)
+		#define FORECAST_CODE3_FRAME GRect(135, 183, 31, 30)
 
-	#define FORECAST_CODE1_FRAME PBL_IF_ROUND_ELSE((GRect( 40, 110, 22, 22)),(GRect(97, 93, 22, 22))) 
-	#define FORECAST_CODE2_FRAME PBL_IF_ROUND_ELSE((GRect( 80, 110, 22, 22)),(GRect(97, 114, 22, 22))) 
-	#define FORECAST_CODE3_FRAME PBL_IF_ROUND_ELSE((GRect(120, 110, 22, 22)),(GRect(97, 135, 22, 22))) 
+		#define FORECAST_HIGH1_FRAME GRect(139, 140, 61, 83)
+		#define FORECAST_HIGH2_FRAME GRect(139, 170, 61, 58)
+		#define FORECAST_HIGH3_FRAME GRect(139, 197, 61, 31)
 
-	#define FORECAST_HIGH1_FRAME PBL_IF_ROUND_ELSE((GRect( 17, 140, 45, 60)),(GRect(100, 103, 45, 60))) 
-	#define FORECAST_HIGH2_FRAME PBL_IF_ROUND_ELSE((GRect( 57, 140, 45, 60)),(GRect(100, 125, 45, 60))) 
-	#define FORECAST_HIGH3_FRAME PBL_IF_ROUND_ELSE((GRect(97, 140, 45, 60)),(GRect(100, 145, 45, 60))) 
+		#define FORECAST_LOW1_FRAME  GRect(139, 126, 61, 83)
+		#define FORECAST_LOW2_FRAME  GRect(139, 156, 61, 72)
+		#define FORECAST_LOW3_FRAME  GRect(139, 183, 61, 45)
+	#else
+		#define FORECAST_DAY1_FRAME PBL_IF_ROUND_ELSE((GRect( 29, 90, 46, 23)),(GRect(5, 93, 92, 23)))
+		#define FORECAST_DAY2_FRAME PBL_IF_ROUND_ELSE((GRect( 71, 90, 46, 23)),(GRect(5, 114, 92, 23)))
+		#define FORECAST_DAY3_FRAME PBL_IF_ROUND_ELSE((GRect(113, 90, 46, 23)),(GRect(5, 135, 92, 23)))
 
-	#define FORECAST_LOW1_FRAME  PBL_IF_ROUND_ELSE((GRect( 17, 130, 45, 60)),(GRect(100, 93, 45, 60))) 
-	#define FORECAST_LOW2_FRAME  PBL_IF_ROUND_ELSE((GRect( 57, 130, 45, 60)),(GRect(100, 115, 45, 60)))  
-	#define FORECAST_LOW3_FRAME  PBL_IF_ROUND_ELSE((GRect(97, 130, 45, 60)),(GRect(100, 135, 45, 60))) 
+		#define FORECAST_CODE1_FRAME PBL_IF_ROUND_ELSE((GRect( 40, 110, 22, 22)),(GRect(97, 93, 22, 22)))
+		#define FORECAST_CODE2_FRAME PBL_IF_ROUND_ELSE((GRect( 80, 110, 22, 22)),(GRect(97, 114, 22, 22)))
+		#define FORECAST_CODE3_FRAME PBL_IF_ROUND_ELSE((GRect(120, 110, 22, 22)),(GRect(97, 135, 22, 22)))
+
+		#define FORECAST_HIGH1_FRAME PBL_IF_ROUND_ELSE((GRect( 17, 140, 45, 60)),(GRect(100, 103, 45, 60)))
+		#define FORECAST_HIGH2_FRAME PBL_IF_ROUND_ELSE((GRect( 57, 140, 45, 60)),(GRect(100, 125, 45, 60)))
+		#define FORECAST_HIGH3_FRAME PBL_IF_ROUND_ELSE((GRect(97, 140, 45, 60)),(GRect(100, 145, 45, 60)))
+
+		#define FORECAST_LOW1_FRAME  PBL_IF_ROUND_ELSE((GRect( 17, 130, 45, 60)),(GRect(100, 93, 45, 60)))
+		#define FORECAST_LOW2_FRAME  PBL_IF_ROUND_ELSE((GRect( 57, 130, 45, 60)),(GRect(100, 115, 45, 60)))
+		#define FORECAST_LOW3_FRAME  PBL_IF_ROUND_ELSE((GRect(97, 130, 45, 60)),(GRect(100, 135, 45, 60)))
+	#endif
 
 
 	TextLayer *Day1_Layer;

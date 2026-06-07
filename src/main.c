@@ -43,13 +43,24 @@ void handle_deinit(void){
 // Init the application //
 //**********************//
 void handle_init(void){
+	#if defined(PBL_PLATFORM_EMERY)
+		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: EMERY (200x228 color)");
+	#elif defined(PBL_PLATFORM_DIORITE)
+		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: DIORITE (200x228 B&W)");
+	#elif defined(PBL_PLATFORM_BASALT)
+		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: BASALT (144x168)");
+	#elif defined(PBL_PLATFORM_CHALK)
+		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: CHALK (180x180)");
+	#elif defined(PBL_PLATFORM_APLITE)
+		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: APLITE (144x168 B&W)");
+	#endif
+
 		//Use the internationalization API to detect the user's language
 		setlocale(LC_ALL, i18n_get_system_locale());
 
         //Create the main window
         mainWindow = window_create();
-        window_stack_push(mainWindow, true /* Animated */);  
-	
+        window_stack_push(mainWindow, true /* Animated */);
 		window_set_background_color(mainWindow, GColorBlack);
 	
 		//Initialize UI
@@ -100,12 +111,29 @@ void handle_init(void){
 
 void loadFontResources(){
 
-		res_t = resource_get_handle(RESOURCE_ID_FUTURA_CONDENSED_53); // Time font
-		res_d = resource_get_handle(RESOURCE_ID_FUTURA_17); // Date font for common ASCII languages
-		res_temp = resource_get_handle(RESOURCE_ID_FUTURA_43); //Temperature  
-		res_u = resource_get_handle(RESOURCE_ID_FUTURA_10); // Last Update font
-		res_russian = resource_get_handle(RESOURCE_ID_RUSSIAN_17); // Date in russian
-		res_d_rus_forecast = resource_get_handle(RESOURCE_ID_RUSSIAN_14); // Date font for Russian language
+	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+		res_t          = resource_get_handle(RESOURCE_ID_FUTURA_CONDENSED_72);
+		res_d          = resource_get_handle(RESOURCE_ID_FUTURA_23);
+		res_temp       = resource_get_handle(RESOURCE_ID_FUTURA_58);
+		res_u          = resource_get_handle(RESOURCE_ID_FUTURA_14);
+		res_russian    = resource_get_handle(RESOURCE_ID_RUSSIAN_23);
+		res_d_rus_forecast = resource_get_handle(RESOURCE_ID_RUSSIAN_19);
+		res_asian      = resource_get_handle(RESOURCE_ID_ASIAN_23);
+
+		font_date = fonts_load_custom_font(res_d);
+		font_time = fonts_load_custom_font(res_t);
+		font_temperature = fonts_load_custom_font(res_temp);
+		font_update = fonts_load_custom_font(res_u);
+		font_russian = fonts_load_custom_font(res_russian);
+		font_russian_date_forecast = fonts_load_custom_font(res_d_rus_forecast);
+		font_asian = fonts_load_custom_font(res_asian);
+	#else
+		res_t = resource_get_handle(RESOURCE_ID_FUTURA_CONDENSED_53);
+		res_d = resource_get_handle(RESOURCE_ID_FUTURA_17);
+		res_temp = resource_get_handle(RESOURCE_ID_FUTURA_43);
+		res_u = resource_get_handle(RESOURCE_ID_FUTURA_10);
+		res_russian = resource_get_handle(RESOURCE_ID_RUSSIAN_17);
+		res_d_rus_forecast = resource_get_handle(RESOURCE_ID_RUSSIAN_14);
 		res_asian = resource_get_handle(RESOURCE_ID_ASIAN_17);
 
 		font_date = fonts_load_custom_font(res_d);
@@ -115,6 +143,7 @@ void loadFontResources(){
 		font_russian = fonts_load_custom_font(res_russian);
 		font_russian_date_forecast = fonts_load_custom_font(res_d_rus_forecast);
 		font_asian = fonts_load_custom_font(res_asian);
+	#endif
 	}
 
 void unloadFontResource(){
@@ -716,7 +745,11 @@ void LoadTemperature(){
 	//Location
       	Location_Layer = text_layer_create(LOCATION_FRAME);
     	text_layer_set_text_color(Location_Layer, GColorWhite);
+	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+		text_layer_set_text_alignment(Location_Layer, GTextAlignmentLeft);
+	#else
   	  	text_layer_set_text_alignment(Location_Layer, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentRight));
+	#endif
 		text_layer_set_background_color(Location_Layer, GColorClear);
 		text_layer_set_font(Location_Layer, font_update);
 		layer_add_child(window_get_root_layer(mainWindow), text_layer_get_layer(Location_Layer));
@@ -1358,7 +1391,7 @@ static void forecast3Days_callback(void *context) {
 
 void accel_tap_handler(AccelAxisType axis, int32_t direction){
 
-	//Check if the Forecast is enabled 
+	//Check if the Forecast is enabled
 	if (ESDuration_ms>0){
 	//Just fire the event while displaying the primary screen
 		if (blnForecast==false){

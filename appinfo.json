@@ -38,7 +38,7 @@
         "location",
         "configurable"
     ],
-    "companyName": "David Rodr\u00edguez Rinc\u00f3n",
+    "companyName": "David Rodríguez Rincón",
     "enableMultiJS": false,
     "longName": "YWeather2",
     "projectType": "native",
@@ -50,7 +50,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -60,7 +62,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -209,7 +213,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -219,7 +225,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -229,7 +237,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -239,7 +249,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -249,7 +261,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -259,7 +273,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -269,7 +285,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -279,7 +297,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -289,7 +309,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -333,7 +355,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -343,7 +367,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -353,7 +379,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -363,7 +391,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -373,7 +403,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -383,7 +415,9 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
@@ -393,36 +427,101 @@
                 "targetPlatforms": [
                     "aplite",
                     "basalt",
-                    "chalk"
+                    "chalk",
+                    "diorite",
+                    "emery"
                 ],
                 "type": "bitmap"
             },
             {
                 "characterRegex": "[0-9: ]",
-                "compatibility": "2.7",
                 "file": "fonts/futura_condensed.ttf",
                 "name": "FUTURA_CONDENSED_53",
                 "trackingAdjust": -3,
                 "type": "font"
             },
             {
-                "compatibility": "2.7",
                 "file": "fonts/futura.ttf",
                 "name": "FUTURA_10",
                 "type": "font"
             },
             {
-                "compatibility": "2.7",
                 "file": "fonts/futura.ttf",
                 "name": "FUTURA_17",
                 "type": "font"
             },
             {
-                "characterRegex": "[0-9\u00b0 -]",
-                "compatibility": "2.7",
+                "characterRegex": "[0-9° -]",
                 "file": "fonts/futura.ttf",
                 "name": "FUTURA_43",
                 "trackingAdjust": -4,
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9: ]",
+                "file": "fonts/futura_condensed.ttf",
+                "name": "FUTURA_CONDENSED_72",
+                "targetPlatforms": [
+                    "diorite",
+                    "emery"
+                ],
+                "trackingAdjust": -3,
+                "type": "font"
+            },
+            {
+                "file": "fonts/futura.ttf",
+                "name": "FUTURA_23",
+                "targetPlatforms": [
+                    "diorite",
+                    "emery"
+                ],
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9° -]",
+                "file": "fonts/futura.ttf",
+                "name": "FUTURA_58",
+                "targetPlatforms": [
+                    "diorite",
+                    "emery"
+                ],
+                "trackingAdjust": -4,
+                "type": "font"
+            },
+            {
+                "file": "fonts/futura.ttf",
+                "name": "FUTURA_14",
+                "targetPlatforms": [
+                    "diorite",
+                    "emery"
+                ],
+                "type": "font"
+            },
+            {
+                "file": "fonts/MCTIME.TTF",
+                "name": "RUSSIAN_23",
+                "targetPlatforms": [
+                    "diorite",
+                    "emery"
+                ],
+                "type": "font"
+            },
+            {
+                "file": "fonts/MCTIME.TTF",
+                "name": "RUSSIAN_19",
+                "targetPlatforms": [
+                    "diorite",
+                    "emery"
+                ],
+                "type": "font"
+            },
+            {
+                "file": "fonts/mincho subset.ttf",
+                "name": "ASIAN_23",
+                "targetPlatforms": [
+                    "diorite",
+                    "emery"
+                ],
                 "type": "font"
             }
         ]
@@ -432,7 +531,9 @@
     "targetPlatforms": [
         "aplite",
         "basalt",
-        "chalk"
+        "chalk",
+        "diorite",
+        "emery"
     ],
     "uuid": "a12838d3-d816-42b4-bad4-c33fac09ee5b",
     "versionLabel": "3.6",
