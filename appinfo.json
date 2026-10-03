@@ -462,7 +462,6 @@
                 "file": "fonts/futura_condensed.ttf",
                 "name": "FUTURA_CONDENSED_72",
                 "targetPlatforms": [
-                    "diorite",
                     "emery"
                 ],
                 "trackingAdjust": -3,
@@ -472,7 +471,6 @@
                 "file": "fonts/futura.ttf",
                 "name": "FUTURA_23",
                 "targetPlatforms": [
-                    "diorite",
                     "emery"
                 ],
                 "type": "font"
@@ -482,7 +480,6 @@
                 "file": "fonts/futura.ttf",
                 "name": "FUTURA_58",
                 "targetPlatforms": [
-                    "diorite",
                     "emery"
                 ],
                 "trackingAdjust": -4,
@@ -492,7 +489,6 @@
                 "file": "fonts/futura.ttf",
                 "name": "FUTURA_14",
                 "targetPlatforms": [
-                    "diorite",
                     "emery"
                 ],
                 "type": "font"
@@ -501,7 +497,6 @@
                 "file": "fonts/MCTIME.TTF",
                 "name": "RUSSIAN_23",
                 "targetPlatforms": [
-                    "diorite",
                     "emery"
                 ],
                 "type": "font"
@@ -510,7 +505,6 @@
                 "file": "fonts/MCTIME.TTF",
                 "name": "RUSSIAN_19",
                 "targetPlatforms": [
-                    "diorite",
                     "emery"
                 ],
                 "type": "font"
@@ -519,7 +513,6 @@
                 "file": "fonts/mincho subset.ttf",
                 "name": "ASIAN_23",
                 "targetPlatforms": [
-                    "diorite",
                     "emery"
                 ],
                 "type": "font"
@@ -536,7 +529,7 @@
         "emery"
     ],
     "uuid": "a12838d3-d816-42b4-bad4-c33fac09ee5b",
-    "versionLabel": "3.7",
+    "versionLabel": "3.8",
     "watchapp": {
         "watchface": true
     }

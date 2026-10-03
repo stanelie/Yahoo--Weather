@@ -10,7 +10,7 @@
 
 	//DATE AND TIME
 
-	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+	#if defined(PBL_PLATFORM_EMERY)
 		#define WEEKDAY_FRAME           GRect(7, 3, 152, 31)
 		#define BT_FRAME                GRect(167, 4, 32, 32)
 		#define TIME_FRAME              GRect(0, 20, 200, 208)
@@ -49,7 +49,7 @@
 
 	//WEATHER
 
-	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+	#if defined(PBL_PLATFORM_EMERY)
 		#define WEATHER_FRAME           GRect(7, 122, 83, 83)
 		#define TEMPERATURE_FRAME       GRect(81, 129, 119, 83)
 		#define LOCATION_FRAME          GRect(0, 210, 155, 18)
@@ -69,7 +69,7 @@
 
 	//FORECAST
 
-	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+	#if defined(PBL_PLATFORM_EMERY)
 		#define LOW_FRAME           GRect(135, 126, 65, 83)
 		#define LOW_ICON_FRAME      GRect(113, 125, 36, 36)
 		#define HIGH_FRAME          GRect(135, 156, 65, 72)
@@ -127,7 +127,7 @@
 
 	//3-DAY FORECAST
 
-	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+	#if defined(PBL_PLATFORM_EMERY)
 		#define FORECAST_DAY1_FRAME  GRect(7, 126, 128, 31)
 		#define FORECAST_DAY2_FRAME  GRect(7, 155, 128, 31)
 		#define FORECAST_DAY3_FRAME  GRect(7, 183, 128, 31)

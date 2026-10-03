@@ -14,7 +14,7 @@ void battery_update_proc(Layer *layer, GContext *ctx){
 	#ifdef PBL_ROUND
 		rect = GRect (2, 2, 176, 176);
 		lineWidth = 15;
-	#elif defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+	#elif defined(PBL_PLATFORM_EMERY)
 		rect = GRect (167, 4, 32, 32);
 		lineWidth = 2;
 	#else

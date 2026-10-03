@@ -46,7 +46,7 @@ void handle_init(void){
 	#if defined(PBL_PLATFORM_EMERY)
 		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: EMERY (200x228 color)");
 	#elif defined(PBL_PLATFORM_DIORITE)
-		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: DIORITE (200x228 B&W)");
+		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: DIORITE (144x168 B&W)");
 	#elif defined(PBL_PLATFORM_BASALT)
 		APP_LOG(APP_LOG_LEVEL_INFO, "Platform: BASALT (144x168)");
 	#elif defined(PBL_PLATFORM_CHALK)
@@ -111,7 +111,7 @@ void handle_init(void){
 
 void loadFontResources(){
 
-	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+	#if defined(PBL_PLATFORM_EMERY)
 		res_t          = resource_get_handle(RESOURCE_ID_FUTURA_CONDENSED_72);
 		res_d          = resource_get_handle(RESOURCE_ID_FUTURA_23);
 		res_temp       = resource_get_handle(RESOURCE_ID_FUTURA_58);
@@ -745,7 +745,7 @@ void LoadTemperature(){
 	//Location
       	Location_Layer = text_layer_create(LOCATION_FRAME);
     	text_layer_set_text_color(Location_Layer, GColorWhite);
-	#if defined(PBL_PLATFORM_DIORITE) || defined(PBL_PLATFORM_EMERY)
+	#if defined(PBL_PLATFORM_EMERY)
 		text_layer_set_text_alignment(Location_Layer, GTextAlignmentLeft);
 	#else
   	  	text_layer_set_text_alignment(Location_Layer, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentRight));
